@@ -2,8 +2,10 @@ package br.com.alura.forum.dto;
 
 import br.com.alura.forum.modelo.Topico;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,7 +19,7 @@ public class TopicoDto {
     public TopicoDto(Topico topico){
         this.id = topico.getId();
         this.titulo = topico.getTitulo();
-        this.titulo = topico.getMensagem();
+        this.mensagem = topico.getMensagem();
         this.dataCriacao = topico.getDataCriacao();
     }
 
