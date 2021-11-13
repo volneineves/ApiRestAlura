@@ -2,9 +2,6 @@ package br.com.alura.forum.dto;
 
 import br.com.alura.forum.modelo.Topico;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;

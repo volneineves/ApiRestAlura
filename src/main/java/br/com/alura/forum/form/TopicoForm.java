@@ -1,4 +1,4 @@
-package form;
+package br.com.alura.forum.form;
 
 import br.com.alura.forum.modelo.Curso;
 import br.com.alura.forum.modelo.Topico;
