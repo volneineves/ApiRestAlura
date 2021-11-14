@@ -8,6 +8,7 @@ import br.com.alura.forum.modelo.Topico;
 import br.com.alura.forum.repository.CursoRepository;
 import br.com.alura.forum.repository.TopicoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -36,8 +37,9 @@ public class TopicosController {
 //        Pageable paginacao = PageRequest.of(pagina, qtd, Sort.Direction.ASC, ordernacao);// O Sort.Direction.ASC pega o valor da ordenação para parâmetro de crescente
 
     @GetMapping
-    public Page<TopicoDto> lista(@RequestParam(required = false) String nomeCurso, @PageableDefault(sort = "id", direction = Sort.Direction.DESC, size = 0) Pageable paginacao) { //Com a anotação @EnableSpringDataWebSupport na classe main é possível receber os parâmetros.Obs.: Agora os parâmetros são passados em inglês pois não criamos variáveis no nome em português
-                                                                                                         //http://localhost:8080/topicos?page=0&size=10&sort=titulo,desc
+    @Cacheable(value = "listaDeTopicos")
+    public Page<TopicoDto> lista(@RequestParam(required = false) String nomeCurso, @PageableDefault(sort = "id", direction = Sort.Direction.DESC, page = 0, size = 5) Pageable paginacao) { //Com a anotação @EnableSpringDataWebSupport na classe main é possível receber os parâmetros.Obs.: Agora os parâmetros são passados em inglês pois não criamos variáveis no nome em português
+        //http://localhost:8080/topicos?page=0&size=10&sort=titulo,desc
         if (nomeCurso == null) {
             Page<Topico> topicos = topicoRepository.findAll(paginacao);
             return TopicoDto.converter(topicos);
@@ -45,6 +47,7 @@ public class TopicosController {
             Page<Topico> topicos = topicoRepository.findByCurso_Nome(nomeCurso, paginacao);
             return TopicoDto.converter(topicos);
         }
+
     }
 
     @PostMapping
