@@ -20,6 +20,10 @@ public class TopicoDto {
         this.dataCriacao = topico.getDataCriacao();
     }
 
+    public TopicoDto(){
+
+    }
+
     public static List<TopicoDto> converter(List<Topico> topicos) {
         return topicos.stream().map(TopicoDto::new).collect(Collectors.toList());
     }
