@@ -1,4 +1,4 @@
-package br.com.alura.forum.configuration;
+package br.com.alura.forum.configuration.swagger;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

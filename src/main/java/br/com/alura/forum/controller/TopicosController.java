@@ -41,13 +41,13 @@ public class TopicosController {
     @Cacheable(value = "listaDeTopicos")
     public Page<TopicoDto> lista(@RequestParam(required = false) String nomeCurso, @PageableDefault(sort = "id", direction = Sort.Direction.DESC, page = 0, size = 5) Pageable paginacao) { //Com a anotação @EnableSpringDataWebSupport na classe main é possível receber os parâmetros.Obs.: Agora os parâmetros são passados em inglês pois não criamos variáveis no nome em português
         //http://localhost:8080/topicos?page=0&size=10&sort=titulo,desc
+        Page<Topico> topicos;
         if (nomeCurso == null) {
-            Page<Topico> topicos = topicoRepository.findAll(paginacao);
-            return TopicoDto.converter(topicos);
+            topicos = topicoRepository.findAll(paginacao);
         } else {
-            Page<Topico> topicos = topicoRepository.findByCurso_Nome(nomeCurso, paginacao);
-            return TopicoDto.converter(topicos);
+            topicos = topicoRepository.findByCurso_Nome(nomeCurso, paginacao);
         }
+        return TopicoDto.converter(topicos);
 
     }
 
@@ -67,11 +67,7 @@ public class TopicosController {
     public ResponseEntity<DetalhesTopicoDto> detalhar(@PathVariable Long id) {
 
         Optional<Topico> topico = topicoRepository.findById(id); // findById retorna um Optional e não um Exception
-
-        if (topico.isPresent()) {
-            return ResponseEntity.ok(new DetalhesTopicoDto(topico.get()));
-        }
-        return ResponseEntity.notFound().build();
+        return topico.map(value -> ResponseEntity.ok(new DetalhesTopicoDto(value))).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PutMapping("/{id}")
@@ -80,25 +76,21 @@ public class TopicosController {
     public ResponseEntity<TopicoDto> atualizar(@PathVariable Long id, @RequestBody @Valid AtualizacaoTopicoForm form) {
         Optional<Topico> optional = topicoRepository.findById(id);
 
-        if (optional.isPresent()) {
+        return optional.map(x -> {
             Topico topico = form.atualizar(id, topicoRepository);
             return ResponseEntity.ok(new TopicoDto(topico));
-        }
-
-        return ResponseEntity.notFound().build();
+        }).orElseGet(() ->  ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
     @Transactional // Avisar ao Spring pra comitar ao final do método
     @CacheEvict(value = "listaDeTopicos", allEntries = true) // O value do @CacheEvict deve ser igual ao cache que deseja atualizar, no caso, do método "lista"
-    public ResponseEntity remover(@PathVariable Long id) {
+    public ResponseEntity<?> remover(@PathVariable Long id) {
         Optional<Topico> optional = topicoRepository.findById(id);
 
-        if (optional.isPresent()) {
-            topicoRepository.deleteById(id);
-            return ResponseEntity.ok().build();
-        }
-
-        return ResponseEntity.notFound().build();
+       return optional.map(value -> {
+           topicoRepository.deleteById(id);
+           return ResponseEntity.ok().build();
+       }).orElseGet(() -> ResponseEntity.notFound().build());
     }
 }
