@@ -1,5 +1,5 @@
-INSERT INTO USUARIO(nome, email, senha) VALUES('Aluno', 'aluno@email.com', '$2a$10$tyf66p4asJXqX/r0k4CDCe5SHNmUKVOtXFifr3cLwYlEQ0QLTYjTS');
-INSERT INTO USUARIO(nome, email, senha) VALUES('MODERADOR', 'moderador@email.com', '$2a$10$tyf66p4asJXqX/r0k4CDCe5SHNmUKVOtXFifr3cLwYlEQ0QLTYjTS');
+INSERT INTO USUARIO(nome, email, senha) VALUES('Aluno', 'aluno@email.com', '$2a$10$sFKmbxbG4ryhwPNx/l3pgOJSt.fW1z6YcUnuE2X8APA/Z3NI/oSpq');
+INSERT INTO USUARIO(nome, email, senha) VALUES('Moderador', 'moderador@email.com', '$2a$10$sFKmbxbG4ryhwPNx/l3pgOJSt.fW1z6YcUnuE2X8APA/Z3NI/oSpq');
 
 INSERT INTO PERFIL(id, nome) VALUES(1, 'ROLE_ALUNO');
 INSERT INTO PERFIL(id, nome) VALUES(2, 'ROLE_MODERADOR');
