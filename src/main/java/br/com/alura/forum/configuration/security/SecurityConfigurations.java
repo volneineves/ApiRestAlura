@@ -49,6 +49,7 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/topicos").permitAll()
                 .antMatchers(HttpMethod.GET, "/topicos/*").permitAll()
                 .antMatchers(HttpMethod.POST, "/auth").permitAll()
+                .antMatchers("/h2-console/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/actuator/**").permitAll() // No ambiente de produção é necessário alterar a permissão
                 .antMatchers(HttpMethod.DELETE, "/topicos/*").hasRole("MODERADOR")
                 .anyRequest().authenticated()
