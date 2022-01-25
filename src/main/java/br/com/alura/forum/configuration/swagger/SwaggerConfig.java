@@ -12,6 +12,7 @@ import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.Arrays;
+import java.util.List;
 
 @Configuration
 @EnableSwagger2
@@ -25,7 +26,7 @@ public class SwaggerConfig {
                 .build()
                 .ignoredParameterTypes(Usuario.class)
                 .globalOperationParameters(
-                        Arrays.asList(
+                        List.of(
                                 new ParameterBuilder()
                                         .name("Authorization")
                                         .description("Header para Token JWT")
